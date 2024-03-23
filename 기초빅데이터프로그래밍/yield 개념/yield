@@ -1,0 +1,45 @@
+yield : 파이썬에서 generator을 만드는 키워드.
+generator : 파이썬에서 여러 개의 데이터를 미리 만들어 놓지 않고 필요할 때마다 즉석해서 하나씩 만들어낼 수 있는 객체. lazy iterator이라고도 불린다.
+next : generator 객체의 다음 원소를 출력해주는 함수이다.
+
+
+## 1. yield 와 return 의 차이
+      
+      return은 결과값을 한번만 제공하지만 yield는 결과값을 여러개로 제공한다.
+      
+      
+      
+## 2. yield를 이용하여 generator을 생성하는 것의 효율성
+
+      import time
+
+      def return_abc():
+          alphabets = []
+          for ch in "ABC":                    -----> alphabets 리스트에 1초에 원소 하나씩을 append해준 후 모두 끝난 이후에 출력을 해주므로 
+              time.sleep(1)                   -----> 첫번째 원소를 구하기 위해서는 원소의 개수만큼의 시간이 걸린다.
+              alphabets.append(ch)
+          return alphabets
+      
+      
+      import time
+
+      def yield_abc():
+          for ch in "ABC":                    ------> yield 키워드를 활용하여 1초마다 결과값을 돌려주므로
+              time.sleep(1)                   ------> 첫번째 원소를 구하기 위해서는 1초가 걸린다.
+              yield ch
+      
+      
+    유의미한 차이가 있는지는 모르겠지만 작동 방법을 이해하는 데에는 괜찮은 예시같다.
+    
+    
+
+## 3. yield 를 이용하면 무한한 데이터 제공하는 함수 생성 가능
+      
+      def yield_infinite_abc():
+          while True:
+              yield "A"
+              yield "B"
+              yield "C"
+              
+      for char in yield_infinite_abc():
+          print(char)                         ------>  무한한 데이터를 생산하는 함수는 yield 키워드 없이는 만들기가 매우 어렵다고 한다.
